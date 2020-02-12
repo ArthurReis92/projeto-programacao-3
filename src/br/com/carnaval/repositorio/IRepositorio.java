@@ -18,4 +18,6 @@ public interface IRepositorio {
 	public Queue<BlocoDeCarnaval> pesquisar(Date data);
 
 	public Queue<BlocoDeCarnaval> pesquisar(Estilo estilo);
+	
+	public boolean verificarExistencia(int id);
 }

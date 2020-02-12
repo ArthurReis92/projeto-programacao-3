@@ -53,7 +53,7 @@ public class Teste {
 //		
 		IControlador c = new ControladorBlocoDeCarnaval();
 		c.inserir("A", 1, sdf.parse("22/02/2020 09:00"), "Recife", Estilo.FREVO);
-		c.inserir("B", 2, sdf.parse("22/02/2020 08:00"), "Recife", Estilo.MARACATU);
+		c.inserir("B", 1, sdf.parse("22/02/2020 08:00"), "Recife", Estilo.MARACATU);
 		c.inserir("C", 3, sdf.parse("22/02/2020 07:00"), "Recife", Estilo.FREVO);
 		c.inserir("D", 4, sdf.parse("22/02/2020 05:00"), "Recife", Estilo.FREVO);
 

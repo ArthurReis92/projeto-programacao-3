@@ -2,9 +2,12 @@ package br.com.carnaval.ui;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Queue;
 import java.util.Scanner;
 
+import br.com.carnaval.excecoes.CNPJJaCadastradoException;
 import br.com.carnaval.excecoes.CNPJNaoCadastradoException;
 import br.com.carnaval.negocio.ControladorBlocoDeCarnaval;
 import br.com.carnaval.negocio.IControlador;
@@ -29,24 +32,58 @@ public class Programa {
 			switch (opcao) {
 			case 1:
 				do {
-					System.out.print("Digite o nome do bloco: ");
-					String nome = leitor.nextLine();
-					System.out.print("Digite o CNPJ: ");
-					int id = leitor.nextInt();
-					leitor.nextLine();
-					System.out.print("Digite a data de apresentação (dd/MM/yyyy HH:mm): ");
-					String dataApresentacao = leitor.nextLine();
-					System.out.print("Digite o nome da cidade: ");
-					String cidade = leitor.nextLine();
-					System.out.print("Digite o estilo do estilo (FREVO, MARACATU, CABOCLINHO, SAMBA): ");
-					String estilo = leitor.nextLine().toUpperCase();
-					c.inserir(nome, id, sdf.parse(dataApresentacao), cidade, Estilo.valueOf(estilo));
+					try {
+						System.out.print("Digite o nome do bloco: ");
+						String nome = leitor.nextLine();
+						int id;
 
+						while (true) {
+							try {
+								System.out.print("Digite o CNPJ: ");
+								id = leitor.nextInt();
+								leitor.nextLine();
+								break;
+							} catch (InputMismatchException e) {
+								System.err.println("Entrada inválida!");
+								leitor.nextLine();
+							}
+						}
+
+						Date dataApresentacao;
+						while (true) {
+							try {
+								System.out.print("Digite a data de apresentação no padrão dd/MM/aaaa HH:mm: ");
+								dataApresentacao = sdf.parse(leitor.nextLine());
+								break;
+							} catch (ParseException e) {
+								System.out.println("Formato de data inválido!");
+							}
+						}
+
+						System.out.print("Digite o nome da cidade: ");
+						String cidade = leitor.nextLine();
+
+						Estilo estilo;
+						while (true) {
+							try {
+								System.out.print("Digite o estilo do estilo (FREVO, MARACATU, CABOCLINHO, SAMBA): ");
+								estilo = Estilo.valueOf(leitor.nextLine().toUpperCase());
+								break;
+							} catch (IllegalArgumentException e) {
+								System.out.println("Estilo inválida!");
+							}
+						}
+						c.inserir(nome, id, dataApresentacao, cidade, estilo);
+
+					} catch (CNPJJaCadastradoException e) {
+						System.err.println(e.getMessage());
+					}
 					System.out.println("Você deseja inserir um novo bloco? (s/n)");
 					teste = leitor.next().charAt(0);
 					leitor.nextLine();
 				} while (teste == 's');
 				break;
+
 			case 2:
 				do {
 					System.out.print("Digite o CNPJ do bloco: ");
@@ -54,6 +91,7 @@ public class Programa {
 					c.remover(id);
 				} while (teste == 's');
 				break;
+
 			case 3:
 				do {
 					System.out.print("Digite o novo nome do bloco: ");
@@ -80,7 +118,7 @@ public class Programa {
 
 			case 4:
 				do {
-					
+
 					System.out.println("1 - Pesquisar por data\n2 - Pesquisar por cnpj\n3 - Pesquisar por estilo");
 					int op = leitor.nextInt();
 					leitor.nextLine();
@@ -122,6 +160,9 @@ public class Programa {
 					teste = leitor.next().charAt(0);
 				} while (teste == 's');
 				break;
+			case 5:
+				teste2 = 'n';
+				continue;
 			default:
 				System.out.println("Opção inválida!");
 				break;
@@ -130,7 +171,7 @@ public class Programa {
 			teste2 = leitor.next().charAt(0);
 			leitor.nextLine();
 		} while (teste2 == 's');
-		
+		System.out.println("Programa encerrado!");
 		leitor.close();
 	}
 
