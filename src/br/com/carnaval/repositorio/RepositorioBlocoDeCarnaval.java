@@ -35,11 +35,16 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 
 	@Override
 	public void atualizar(int id, BlocoDeCarnaval bloco) {
-		for (BlocoDeCarnaval blocoDeCarnaval : blocos) {
-			if (blocoDeCarnaval.getId() == id) {
-				blocos.set(blocos.indexOf(blocoDeCarnaval), bloco);
-				break;
+		if (!blocos.isEmpty()) {
+			for (BlocoDeCarnaval blocoDeCarnaval : blocos) {
+				if (blocoDeCarnaval.getId() == id) {
+					blocos.set(blocos.indexOf(blocoDeCarnaval), bloco);
+					return;
+				}
 			}
+			throw new NaoCadastradoException("O Bloco não pode ser atualizado pois não foi cadastrado!");
+		} else {
+			throw new BancoDeCadastroVazioException("Não há blocos cadastrados para o carnaval!");
 		}
 
 	}
@@ -54,7 +59,7 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 			}
 			throw new NaoCadastradoException("Bloco não cadastrado!");
 		} else {
-			throw new NaoCadastradoException("Não há blocos cadastrados para o carnaval!");
+			throw new BancoDeCadastroVazioException("Não há blocos cadastrados para o carnaval!");
 		}
 	}
 

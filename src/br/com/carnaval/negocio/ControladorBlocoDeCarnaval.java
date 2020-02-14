@@ -2,7 +2,7 @@ package br.com.carnaval.negocio;
 
 import java.util.Date;
 
-import br.com.carnaval.excecoes.CNPJJaCadastradoException;
+import br.com.carnaval.excecoes.JaCadastradoException;
 import br.com.carnaval.negocio.entidades.BlocoDeCarnaval;
 import br.com.carnaval.negocio.entidades.Estilo;
 import br.com.carnaval.repositorio.Fila;
@@ -45,7 +45,7 @@ public class ControladorBlocoDeCarnaval implements IControlador {
 			BlocoDeCarnaval bloco = new BlocoDeCarnaval(nome, id, dataDeApresentacao, cidade, estilo);
 			rptBlocoDeCarnaval.inserir(bloco);
 		} else {
-			throw new CNPJJaCadastradoException("O CNPJ digitado já foi cadastrado!");
+			throw new JaCadastradoException("O CNPJ digitado já foi cadastrado!");
 		}
 
 	}

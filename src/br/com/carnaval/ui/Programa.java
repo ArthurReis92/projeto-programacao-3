@@ -7,7 +7,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import br.com.carnaval.excecoes.BancoDeCadastroVazioException;
-import br.com.carnaval.excecoes.CNPJJaCadastradoException;
+import br.com.carnaval.excecoes.JaCadastradoException;
 import br.com.carnaval.excecoes.NaoCadastradoException;
 import br.com.carnaval.negocio.ControladorBlocoDeCarnaval;
 import br.com.carnaval.negocio.IControlador;
@@ -24,8 +24,19 @@ public class Programa {
 
 		IControlador c = new ControladorBlocoDeCarnaval();
 		char teste2 = 'n';
+
+		System.out.println("---------------------------------------------------");
+		System.out.println("---- SISTEMA DE CADASTRO DE BLOCOS DE CARNAVAL ----");
+		System.out.println("---------------------------------------------------");
+		System.out.println();
 		do {
-			System.out.println("1- Inserir\n2- Remover\n3- Atualizar\n4- Pesquisar\n5 - Sair");
+			System.out.println("------------------------");
+			System.out.println("---- MENU PRINCIPAL ----");
+			System.out.println("------------------------");
+			System.out.println();
+			System.out.println("------------------------");
+			System.out.println("1- Cadastrar\n2- Remover\n3- Atualizar\n4- Pesquisar\n5- Sair");
+			System.out.println("------------------------");
 			int opcao = leitor.nextInt();
 			leitor.nextLine();
 			char teste = 's';
@@ -33,87 +44,116 @@ public class Programa {
 			switch (opcao) {
 			case 1:
 				do {
-					try {
-						System.out.print("Digite o nome do bloco: ");
-						String nome = leitor.nextLine();
-						int id;
+					System.out.println();
+					System.out.println("------------------------");
+					System.out.println("--- MENU DE CADASTRO ---");
+					System.out.println("------------------------");
+					System.out.println();
+					System.out.println("------------------------");
+					System.out.print("Digite o nome do bloco: ");
+					String nome = leitor.nextLine();
+					System.out.println("------------------------");
+					int id;
+					while (true) {
+						try {
 
-						while (true) {
-							try {
-								System.out.print("Digite o CNPJ: ");
-								id = leitor.nextInt();
-								leitor.nextLine();
-								break;
-							} catch (InputMismatchException e) {
-								System.err.println("Entrada inválida!");
-								leitor.nextLine();
-							}
+							System.out.print("Digite o CNPJ: ");
+							id = leitor.nextInt();
+							break;
+						} catch (InputMismatchException e) {
+							System.err.println("------------------------");
+							System.err.println("Entrada inválida!");
+							System.err.println("------------------------");
+							leitor.nextLine();
 						}
-
-						Date dataApresentacao;
-						while (true) {
-							try {
-								System.out.print("Digite a data de apresentação no padrão dd/MM/aaaa HH:mm: ");
-								dataApresentacao = sdf.parse(leitor.nextLine());
-								break;
-							} catch (ParseException e) {
-								System.out.println("Formato de data inválido!");
-							}
-						}
-
-						System.out.print("Digite o nome da cidade: ");
-						String cidade = leitor.nextLine();
-
-						Estilo estilo;
-						while (true) {
-							try {
-								System.out.print("Digite o estilo do bloco (FREVO, MARACATU, CABOCLINHO, SAMBA): ");
-								estilo = Estilo.valueOf(leitor.nextLine().toUpperCase());
-								break;
-							} catch (IllegalArgumentException e) {
-								System.out.println("Estilo inválido!");
-							}
-						}
-						c.inserir(nome, id, dataApresentacao, cidade, estilo);
-
-					} catch (CNPJJaCadastradoException e) {
-						System.err.println(e.getMessage());
 					}
+					leitor.nextLine();
+					System.out.println("------------------------");
+					Date dataApresentacao;
+					while (true) {
+						try {
+							System.out.print("Digite a data de apresentação no padrão dd/MM/aaaa HH:mm: ");
+							dataApresentacao = sdf.parse(leitor.nextLine());
+							break;
+						} catch (ParseException e) {
+							System.err.println("------------------------");
+							System.err.println("Formato de data inválido!");
+							System.err.println("------------------------");
+						}
+					}
+
+					System.out.println("------------------------");
+					System.out.print("Digite o nome da cidade: ");
+					String cidade = leitor.nextLine();
+					System.out.println("------------------------");
+
+					Estilo estilo;
+					while (true) {
+						try {
+							System.out.print("Digite o estilo do bloco (FREVO, MARACATU, CABOCLINHO, SAMBA): ");
+							estilo = Estilo.valueOf(leitor.nextLine().toUpperCase());
+							break;
+						} catch (IllegalArgumentException e) {
+							System.err.println("------------------------");
+							System.err.println("Estilo inválido!");
+							System.err.println("------------------------");
+						}
+					}
+
+					try {
+						c.inserir(nome, id, dataApresentacao, cidade, estilo);
+					} catch (JaCadastradoException e) {
+						System.err.println("------------------------");
+						System.err.println(e.getMessage());
+						System.err.println("------------------------");
+					}
+
+					System.out.println("------------------------");
 					System.out.print("Você deseja inserir um novo bloco? (s/n) ");
 					teste = leitor.next().charAt(0);
 					leitor.nextLine();
+					System.out.println("------------------------");
 				} while (teste == 's');
 				break;
 
 			case 2:
-				System.out.println();
-				System.out.println("------------------------");
-				System.out.println("--- MENU DE REMOÇÃO ---");
-				System.out.println("------------------------");
 
 				do {
-					int id = -1;
 					System.out.println();
+					System.out.println("------------------------");
+					System.out.println("--- MENU DE REMOÇÃO ---");
+					System.out.println("------------------------");
+
+					int id;
+					System.out.println();
+					System.out.println("------------------------");
 					while (true) {
 						try {
 							System.out.print("Digite o CNPJ do bloco: ");
 							id = leitor.nextInt();
 							break;
 						} catch (InputMismatchException e) {
+							System.err.println("------------------------");
 							System.err.println("Entrada inválida!");
+							System.err.println("------------------------");
 							leitor.nextLine();
 						}
 					}
+					System.out.println("------------------------");
 					try {
 						c.remover(id);
+						System.out.println("Bloco removido com sucesso!");
 					} catch (BancoDeCadastroVazioException e) {
-						System.out.println();
+						System.err.println("------------------------");
 						System.err.println(e.getMessage());
+						System.err.println("------------------------");
 						break;
 					} catch (NaoCadastradoException e) {
-						System.out.println();
+						System.err.println("------------------------");
 						System.err.println(e.getMessage());
+						System.err.println("------------------------");
 					}
+					System.out.println("------------------------");
 					System.out.println();
 					System.out.print("Deseja remover mais algum bloco? (s/n) ");
 					teste = leitor.next().charAt(0);
@@ -122,21 +162,116 @@ public class Programa {
 
 			case 3:
 				do {
+					System.out.println();
+					System.out.println("---------------------------");
+					System.out.println("--- MENU DE ATUALIZAÇÃO ---");
+					System.out.println("---------------------------");
+					System.out.println();
+
+					System.out.println("------------------------");
+					int id;
+					while (true) {
+						try {
+							System.out.print("Digite o cnpj do bloco que você deseja atualizar: ");
+							id = leitor.nextInt();
+							break;
+						} catch (InputMismatchException e) {
+							System.err.println("------------------------");
+							System.err.println("Entrada inválida!");
+							System.err.println("------------------------");
+							leitor.nextLine();
+						}
+					}
+
+					// Checando se o CNPJ informado está cadastrado
+					try {
+						c.pesquisar(id);
+					} catch (BancoDeCadastroVazioException e) {
+						System.err.println("------------------------");
+						System.err.println(e.getMessage());
+						System.err.println("------------------------");
+						teste = 'n';
+						continue;
+					} catch (NaoCadastradoException e) {
+						System.err.println("------------------------");
+						System.err.println(e.getMessage());
+						System.err.println("------------------------");
+						char resp = 'n';
+						System.out.print("Deseja realizar mais alguma atualização? (s/n)");
+						resp = leitor.next().charAt(0);
+						System.out.println("------------------------");
+						if (resp == 's') {
+							continue;
+						} else {
+							teste = 'n';
+							continue;
+						}
+					}
+
+					leitor.nextLine();
+					System.out.println("------------------------");
 					System.out.print("Digite o novo nome do bloco: ");
 					String nome = leitor.nextLine();
-					System.out.print("Digite o novo CNPJ: ");
-					int idNovo = leitor.nextInt();
-					leitor.nextLine();
-					System.out.print("Digite a nova data de apresentação (dd/MM/yyyy HH:mm): ");
-					String dataApresentacao = leitor.nextLine();
-					System.out.print("Digite o nome da cidade: ");
-					String cidade = leitor.nextLine();
-					System.out.print("Digite o novo estilo do bloco (FREVO, MARACATU, CABOCLINHO, SAMBA): ");
-					String estilo = leitor.nextLine().toUpperCase();
 
-					System.out.println("Digite o cnpj do bloco que você deseja atualizar: ");
-					int id = leitor.nextInt();
-					c.atualizar(id, nome, idNovo, sdf.parse(dataApresentacao), cidade, Estilo.valueOf(estilo));
+					System.out.println("------------------------");
+					int idNovo;
+					while (true) {
+						try {
+							System.out.print("Digite o novo CNPJ: ");
+							idNovo = leitor.nextInt();
+							break;
+						} catch (InputMismatchException e) {
+							System.err.println("------------------------");
+							System.err.println("Entrada inválida!");
+							System.err.println("------------------------");
+							leitor.nextLine();
+						}
+					}
+
+					leitor.nextLine();
+					System.out.println("------------------------");
+					Date dataApresentacao;
+					while (true) {
+						try {
+							System.out.print("Digite a nova data de apresentação (dd/MM/yyyy HH:mm): ");
+							dataApresentacao = sdf.parse(leitor.nextLine());
+							break;
+						} catch (ParseException e) {
+							System.err.println("------------------------");
+							System.err.println("Formato de data inválido!");
+							System.err.println("------------------------");
+						}
+					}
+
+					System.out.println("------------------------");
+					System.out.print("Digite o novo nome da cidade: ");
+					String cidade = leitor.nextLine();
+					System.out.println("------------------------");
+
+					Estilo estilo;
+					while (true) {
+						try {
+							System.out.print("Digite o novo estilo do bloco (FREVO, MARACATU, CABOCLINHO, SAMBA): ");
+							estilo = Estilo.valueOf(leitor.nextLine().toUpperCase());
+							break;
+						} catch (IllegalArgumentException e) {
+							System.err.println("------------------------");
+							System.err.println("Estilo inválido!");
+							System.err.println("------------------------");
+						}
+					}
+					System.out.println("------------------------");
+
+					try {
+						c.atualizar(id, nome, idNovo, dataApresentacao, cidade, estilo);
+						System.out.println("Atualização realizada com sucesso!");
+					} catch (NaoCadastradoException e) {
+						System.err.println("------------------------");
+						System.err.println(e.getMessage());
+						System.err.println("------------------------");
+					}
+
+					System.out.println("------------------------");
 
 					System.out.println("Você deseja atualizar mais algum bloco? (s/n)");
 					teste = leitor.next().charAt(0);
@@ -186,7 +321,6 @@ public class Programa {
 							System.out.println();
 							System.err.println(e.getMessage());
 						}
-
 						break;
 
 					case 2:
@@ -283,6 +417,7 @@ public class Programa {
 			System.out.print("Deseja retornar ao menu principal? (s/n) ");
 			teste2 = leitor.next().charAt(0);
 			leitor.nextLine();
+			System.out.println();
 		} while (teste2 == 's');
 		System.out.println("Programa encerrado!");
 		leitor.close();
