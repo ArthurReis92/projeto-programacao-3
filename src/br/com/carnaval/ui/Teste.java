@@ -2,22 +2,20 @@ package br.com.carnaval.ui;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Queue;
 import java.util.Scanner;
 
-import br.com.carnaval.excecoes.CNPJNaoCadastradoException;
 import br.com.carnaval.negocio.ControladorBlocoDeCarnaval;
 import br.com.carnaval.negocio.IControlador;
 import br.com.carnaval.negocio.entidades.BlocoDeCarnaval;
 import br.com.carnaval.negocio.entidades.Estilo;
+import br.com.carnaval.repositorio.Fila;
 
 public class Teste {
 
 	public static void main(String[] args) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Scanner leitor = new Scanner(System.in);
-		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+		// SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
 
 //		Date d = sdf.parse("22/02/2020 09:00:00");
 //		Calendar cal = Calendar.getInstance();
@@ -57,10 +55,11 @@ public class Teste {
 		c.inserir("C", 3, sdf.parse("22/02/2020 07:00"), "Recife", Estilo.FREVO);
 		c.inserir("D", 4, sdf.parse("22/02/2020 05:00"), "Recife", Estilo.FREVO);
 
-		//int id = 2;
-		//c.remover(id);
+		// int id = 2;
+		// c.remover(id);
 
-		//c.atualizar(1, "D", 5, sdf.parse("22/02/2020 13:00"), "Recife", Estilo.CABOCLINHO);
+		// c.atualizar(1, "D", 5, sdf.parse("22/02/2020 13:00"), "Recife",
+		// Estilo.CABOCLINHO);
 
 //		Date data = sdf2.parse("22/02/2020");
 //		Queue<BlocoDeCarnaval> apresentacoesDaData = c.pesquisar(data);
@@ -80,15 +79,15 @@ public class Teste {
 //				System.out.println(e.getMessage());
 //			}
 //		}
-		
+
 		System.out.print("Digite o estilo musical desejado: ");
 		String estilo = leitor.nextLine().toUpperCase();
-		Queue<BlocoDeCarnaval> blocosEstilo = c.pesquisar(Estilo.valueOf(estilo));
-		int tamanhoDaFila = blocosEstilo.size();
+		Fila<BlocoDeCarnaval> blocosEstilo = c.pesquisar(Estilo.valueOf(estilo));
+		int tamanhoDaFila = blocosEstilo.pegarTamanho();
 		for (int i = 0; i < tamanhoDaFila; i++) {
-			System.out.println(blocosEstilo.remove() + "\n");
+			System.out.println(blocosEstilo.remover() + "\n");
 		}
-		
+
 //		String data = "22/02";
 //		Queue<BlocoDeCarnaval> apresentacao = c.pesquisar(sdf2.parse(data));
 //		int n = apresentacao.size();

@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.InputMismatchException;
-import java.util.Queue;
 import java.util.Scanner;
 
 import br.com.carnaval.excecoes.CNPJJaCadastradoException;
@@ -13,6 +12,7 @@ import br.com.carnaval.negocio.ControladorBlocoDeCarnaval;
 import br.com.carnaval.negocio.IControlador;
 import br.com.carnaval.negocio.entidades.BlocoDeCarnaval;
 import br.com.carnaval.negocio.entidades.Estilo;
+import br.com.carnaval.repositorio.Fila;
 
 public class Programa {
 
@@ -126,10 +126,10 @@ public class Programa {
 					case 1:
 						System.out.print("Digite a data de apresentação (dd/MM/yyyy): ");
 						String dataDeApresentacao = leitor.nextLine();
-						Queue<BlocoDeCarnaval> apresentacoesDaData = c.pesquisar(sdf2.parse(dataDeApresentacao));
-						int numeroDeBlocos = apresentacoesDaData.size();
+						Fila<BlocoDeCarnaval> apresentacoesDaData = c.pesquisar(sdf2.parse(dataDeApresentacao));
+						int numeroDeBlocos = apresentacoesDaData.pegarTamanho();
 						for (int i = 0; i < numeroDeBlocos; i++) {
-							System.out.println(apresentacoesDaData.remove() + "\n");
+							System.out.println(apresentacoesDaData.remover() + "\n");
 						}
 						break;
 					case 2:
@@ -149,10 +149,10 @@ public class Programa {
 					case 3:
 						System.out.print("Digite o estilo musical desejado: ");
 						String estilo = leitor.nextLine().toUpperCase();
-						Queue<BlocoDeCarnaval> blocosEstilo = c.pesquisar(Estilo.valueOf(estilo));
-						int tamanhoDaFila = blocosEstilo.size();
+						Fila<BlocoDeCarnaval> blocosEstilo = c.pesquisar(Estilo.valueOf(estilo));
+						int tamanhoDaFila = blocosEstilo.pegarTamanho();
 						for (int i = 0; i < tamanhoDaFila; i++) {
-							System.out.println(blocosEstilo.remove() + "\n");
+							System.out.println(blocosEstilo.remover() + "\n");
 						}
 						break;
 					}

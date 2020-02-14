@@ -1,11 +1,11 @@
 package br.com.carnaval.negocio;
 
 import java.util.Date;
-import java.util.Queue;
 
 import br.com.carnaval.excecoes.CNPJJaCadastradoException;
 import br.com.carnaval.negocio.entidades.BlocoDeCarnaval;
 import br.com.carnaval.negocio.entidades.Estilo;
+import br.com.carnaval.repositorio.Fila;
 import br.com.carnaval.repositorio.IRepositorio;
 import br.com.carnaval.repositorio.RepositorioBlocoDeCarnaval;
 
@@ -29,12 +29,12 @@ public class ControladorBlocoDeCarnaval implements IControlador {
 		return rptBlocoDeCarnaval.pesquisar(id);
 	}
 
-	public Queue<BlocoDeCarnaval> pesquisar(Date data) {
+	public Fila<BlocoDeCarnaval> pesquisar(Date data) {
 		return rptBlocoDeCarnaval.pesquisar(data);
 	}
 
 	@Override
-	public Queue<BlocoDeCarnaval> pesquisar(Estilo estilo) {
+	public Fila<BlocoDeCarnaval> pesquisar(Estilo estilo) {
 		return rptBlocoDeCarnaval.pesquisar(estilo);
 	}
 

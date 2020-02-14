@@ -3,9 +3,7 @@ package br.com.carnaval.repositorio;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import br.com.carnaval.excecoes.CNPJNaoCadastradoException;
 import br.com.carnaval.negocio.entidades.BlocoDeCarnaval;
@@ -52,8 +50,8 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 	}
 
 	@Override
-	public Queue<BlocoDeCarnaval> pesquisar(Date data) {
-		Queue<BlocoDeCarnaval> blocosNaFila = new LinkedList<BlocoDeCarnaval>();
+	public Fila<BlocoDeCarnaval> pesquisar(Date data) {
+		Fila<BlocoDeCarnaval> blocosNaFila = new Fila<BlocoDeCarnaval>();
 		List<BlocoDeCarnaval> blocosDaData = new ArrayList<BlocoDeCarnaval>();
 
 		Calendar cal = Calendar.getInstance();
@@ -75,15 +73,15 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 		Sort.quickSort(0, blocosDaData.size() - 1, blocosDaData);
 
 		for (int i = 0; i < blocosDaData.size(); i++) {
-			blocosNaFila.add(blocosDaData.get(i));
+			blocosNaFila.inserir(blocosDaData.get(i));
 		}
 
 		return blocosNaFila;
 	}
 
 	@Override
-	public Queue<BlocoDeCarnaval> pesquisar(Estilo estilo) {
-		Queue<BlocoDeCarnaval> blocosNaFila = new LinkedList<BlocoDeCarnaval>();
+	public Fila<BlocoDeCarnaval> pesquisar(Estilo estilo) {
+		Fila<BlocoDeCarnaval> blocosNaFila = new Fila<BlocoDeCarnaval>();
 		List<BlocoDeCarnaval> blocosDoEstilo = new ArrayList<BlocoDeCarnaval>();
 
 		for (BlocoDeCarnaval blocoDeCarnaval : blocos) {
@@ -95,7 +93,7 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 		Sort.quickSort(0, blocosDoEstilo.size() - 1, blocosDoEstilo);
 
 		for (int i = 0; i < blocosDoEstilo.size(); i++) {
-			blocosNaFila.add(blocosDoEstilo.get(i));
+			blocosNaFila.inserir(blocosDoEstilo.get(i));
 		}
 
 		return blocosNaFila;

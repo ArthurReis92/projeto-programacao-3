@@ -1,11 +1,10 @@
 package br.com.carnaval.negocio;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Queue;
 
 import br.com.carnaval.negocio.entidades.BlocoDeCarnaval;
 import br.com.carnaval.negocio.entidades.Estilo;
+import br.com.carnaval.repositorio.Fila;
 
 public interface IControlador {
 	public void inserir(String nome, int id, Date dataDeApresentacao, String cidade, Estilo estilo);
@@ -16,8 +15,8 @@ public interface IControlador {
 
 	public BlocoDeCarnaval pesquisar(int id);
 
-	public Queue<BlocoDeCarnaval> pesquisar(Date data);
+	public Fila<BlocoDeCarnaval> pesquisar(Date data);
 
-	public Queue<BlocoDeCarnaval> pesquisar(Estilo estilo);
+	public Fila<BlocoDeCarnaval> pesquisar(Estilo estilo);
 
 }
