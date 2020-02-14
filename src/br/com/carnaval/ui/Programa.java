@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import br.com.carnaval.excecoes.BancoDeCadastroVazioException;
 import br.com.carnaval.excecoes.CNPJJaCadastradoException;
 import br.com.carnaval.excecoes.NaoCadastradoException;
 import br.com.carnaval.negocio.ControladorBlocoDeCarnaval;
@@ -85,10 +86,35 @@ public class Programa {
 				break;
 
 			case 2:
+				System.out.println();
+				System.out.println("------------------------");
+				System.out.println("--- MENU DE REMOÇÃO ---");
+				System.out.println("------------------------");
+
 				do {
-					System.out.print("Digite o CNPJ do bloco: ");
-					int id = leitor.nextInt();
-					c.remover(id);
+					int id = -1;
+					System.out.println();
+					while (true) {
+						try {
+							System.out.print("Digite o CNPJ do bloco: ");
+							id = leitor.nextInt();
+							break;
+						} catch (InputMismatchException e) {
+							System.err.println("Entrada inválida!");
+							leitor.nextLine();
+						}
+					}
+					try {
+						c.remover(id);
+					} catch (BancoDeCadastroVazioException e) {
+						System.out.println();
+						System.err.println(e.getMessage());
+						break;
+					} catch (NaoCadastradoException e) {
+						System.out.println();
+						System.err.println(e.getMessage());
+					}
+					System.out.println();
 					System.out.print("Deseja remover mais algum bloco? (s/n) ");
 					teste = leitor.next().charAt(0);
 				} while (teste == 's');
@@ -143,7 +169,8 @@ public class Programa {
 								dataDeApresentacao = sdf2.parse(leitor.nextLine());
 								break;
 							} catch (ParseException e) {
-								System.out.println("Formato de data inválido!");
+								System.out.println();
+								System.err.println("Formato de data inválido!");
 							}
 						}
 						try {
@@ -156,11 +183,12 @@ public class Programa {
 								System.out.println(apresentacoesDaData.remover() + "\n");
 							}
 						} catch (NaoCadastradoException e) {
-							System.out.println(e.getMessage());
+							System.out.println();
+							System.err.println(e.getMessage());
 						}
 
 						break;
-						
+
 					case 2:
 						System.out.println("-------------------------");
 						System.out.println("--- PESQUISA POR CNPJ ---");
@@ -183,10 +211,10 @@ public class Programa {
 							System.out.println("--- DADOS DO BLOCO DE CNPJ " + id + " ---\n");
 							System.out.println(bloco);
 						} catch (NaoCadastradoException e) {
-							System.out.println(e.getMessage());
+							System.err.println(e.getMessage());
 						}
 						break;
-						
+
 					case 3:
 						System.out.println("---------------------------");
 						System.out.println("--- PESQUISA POR ESTILO ---");
@@ -199,7 +227,7 @@ public class Programa {
 								estilo = Estilo.valueOf(leitor.nextLine().toUpperCase());
 								break;
 							} catch (IllegalArgumentException e) {
-								System.out.println("Estilo inválido!");
+								System.err.println("Estilo inválido!");
 							}
 						}
 						try {
@@ -211,10 +239,10 @@ public class Programa {
 								System.out.println(blocosEstilo.remover() + "\n");
 							}
 						} catch (NaoCadastradoException e) {
-							System.out.println(e.getMessage());
+							System.err.println(e.getMessage());
 						}
 						break;
-						
+
 					case 4:
 						System.out.println("---------------------------");
 						System.out.println("--- PESQUISA POR CIDADE ---");
@@ -226,7 +254,7 @@ public class Programa {
 							System.out.println("--- BLOCOS DA CIDADE " + cidade.toUpperCase() + " ---\n");
 							System.out.println(c.pesquisar(cidade));
 						} catch (NaoCadastradoException e) {
-							System.out.println(e.getMessage());
+							System.err.println(e.getMessage());
 						}
 						break;
 					case 5:

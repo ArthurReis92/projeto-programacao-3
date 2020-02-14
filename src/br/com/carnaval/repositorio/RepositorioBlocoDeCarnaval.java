@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import br.com.carnaval.excecoes.BancoDeCadastroVazioException;
 import br.com.carnaval.excecoes.NaoCadastradoException;
 import br.com.carnaval.negocio.entidades.BlocoDeCarnaval;
 import br.com.carnaval.negocio.entidades.Estilo;
@@ -19,11 +20,16 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 
 	@Override
 	public void remover(int id) {
-		for (BlocoDeCarnaval blocoDeCarnaval : blocos) {
-			if (blocoDeCarnaval.getId() == id) {
-				blocos.remove(blocoDeCarnaval);
-				break;
+		if (!blocos.isEmpty()) {
+			for (BlocoDeCarnaval blocoDeCarnaval : blocos) {
+				if (blocoDeCarnaval.getId() == id) {
+					blocos.remove(blocoDeCarnaval);
+					return;
+				}
 			}
+			throw new NaoCadastradoException("Bloco não cadastrado!");
+		} else {
+			throw new BancoDeCadastroVazioException("Não há blocos cadastrados para o carnaval!");
 		}
 	}
 
