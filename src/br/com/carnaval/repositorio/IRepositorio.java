@@ -19,4 +19,8 @@ public interface IRepositorio {
 	public Fila<BlocoDeCarnaval> pesquisar(Estilo estilo);
 
 	public boolean verificarExistencia(int id);
+
+	public String pesquisar();
+
+	public String pesquisar(String cidade);
 }

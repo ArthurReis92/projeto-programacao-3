@@ -50,4 +50,14 @@ public class ControladorBlocoDeCarnaval implements IControlador {
 
 	}
 
+	@Override
+	public String pesquisar() {
+		return rptBlocoDeCarnaval.pesquisar();
+	}
+
+	@Override
+	public String pesquisar(String cidade) {
+		return rptBlocoDeCarnaval.pesquisar(cidade);
+	}
+
 }

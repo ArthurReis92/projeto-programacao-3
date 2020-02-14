@@ -19,4 +19,8 @@ public interface IControlador {
 
 	public Fila<BlocoDeCarnaval> pesquisar(Estilo estilo);
 
+	public String pesquisar();
+
+	public String pesquisar(String cidade);
+
 }
