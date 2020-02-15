@@ -23,7 +23,7 @@ public class Programa {
 		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
 
 		IControlador c = new ControladorBlocoDeCarnaval();
-		char teste2 = 'n';
+		char teste2 = 'N';
 
 		System.out.println("---------------------------------------------------");
 		System.out.println("---- SISTEMA DE CADASTRO DE BLOCOS DE CARNAVAL ----");
@@ -35,12 +35,23 @@ public class Programa {
 			System.out.println("------------------------");
 			System.out.println();
 			System.out.println("------------------------");
-			System.out.println("1- Cadastrar\n2- Remover\n3- Atualizar\n4- Pesquisar\n5- Sair");
-			System.out.println("------------------------");
-			int opcao = leitor.nextInt();
-			leitor.nextLine();
-			char teste = 's';
 
+			int opcao;
+			char teste = 'S';
+			while (true) {
+				try {
+					System.out.println("1- Cadastrar\n2- Remover\n3- Atualizar\n4- Pesquisar\n5- Sair");
+					System.out.println("------------------------");
+					opcao = leitor.nextInt();
+					break;
+				} catch (InputMismatchException e) {
+					System.err.println("------------------------");
+					System.err.println("Entrada inválida!");
+					System.err.println("------------------------");
+					leitor.nextLine();
+				}
+			}
+			leitor.nextLine();
 			switch (opcao) {
 			case 1:
 				do {
@@ -110,10 +121,10 @@ public class Programa {
 
 					System.out.println("------------------------");
 					System.out.print("Você deseja inserir um novo bloco? (s/n) ");
-					teste = leitor.next().charAt(0);
+					teste = leitor.next().toUpperCase().charAt(0);
 					leitor.nextLine();
 					System.out.println("------------------------");
-				} while (teste == 's');
+				} while (teste == 'S');
 				break;
 
 			case 2:
@@ -141,8 +152,9 @@ public class Programa {
 					}
 					System.out.println("------------------------");
 					try {
+						String blocoRemovido = c.pesquisar(id).getNome();
 						c.remover(id);
-						System.out.println("Bloco removido com sucesso!");
+						System.out.println("Bloco " + blocoRemovido + " removido com sucesso!");
 					} catch (BancoDeCadastroVazioException e) {
 						System.err.println("------------------------");
 						System.err.println(e.getMessage());
@@ -156,8 +168,8 @@ public class Programa {
 					System.out.println("------------------------");
 					System.out.println();
 					System.out.print("Deseja remover mais algum bloco? (s/n) ");
-					teste = leitor.next().charAt(0);
-				} while (teste == 's');
+					teste = leitor.next().toUpperCase().charAt(0);
+				} while (teste == 'S');
 				break;
 
 			case 3:
@@ -190,20 +202,20 @@ public class Programa {
 						System.err.println("------------------------");
 						System.err.println(e.getMessage());
 						System.err.println("------------------------");
-						teste = 'n';
+						teste = 'N';
 						continue;
 					} catch (NaoCadastradoException e) {
 						System.err.println("------------------------");
 						System.err.println(e.getMessage());
 						System.err.println("------------------------");
-						char resp = 'n';
-						System.out.print("Deseja realizar mais alguma atualização? (s/n)");
-						resp = leitor.next().charAt(0);
+						char resp = 'N';
+						System.out.print("Deseja realizar mais alguma atualização? (s/n) ");
+						resp = leitor.next().toUpperCase().charAt(0);
 						System.out.println("------------------------");
-						if (resp == 's') {
+						if (resp == 'S') {
 							continue;
 						} else {
-							teste = 'n';
+							teste = 'N';
 							continue;
 						}
 					}
@@ -273,10 +285,10 @@ public class Programa {
 
 					System.out.println("------------------------");
 
-					System.out.println("Você deseja atualizar mais algum bloco? (s/n)");
-					teste = leitor.next().charAt(0);
+					System.out.print("Você deseja atualizar mais algum bloco? (s/n) ");
+					teste = leitor.next().toUpperCase().charAt(0);
 					leitor.nextLine();
-				} while (teste == 's');
+				} while (teste == 'S');
 				break;
 
 			case 4:
@@ -285,27 +297,46 @@ public class Programa {
 					System.out.println("------------------------");
 					System.out.println("--- MENU DE PESQUISA ---");
 					System.out.println("------------------------");
-					System.out.println(
-							"1 - Pesquisar por data\n2 - Pesquisar por cnpj\n3 - Pesquisar por estilo\n4 - Pesquisar por cidade\n5 - Pesquisar todos");
-					System.out.println("------------------------");
-					int op = leitor.nextInt();
-					System.out.println("------------------------");
+					int op;
+					
+					while (true) {
+						try {
+							System.out.println(
+									"1 - Pesquisar por data\n2 - Pesquisar por cnpj\n3 - Pesquisar por estilo\n4 - Pesquisar por cidade\n5 - Pesquisar todos");
+							System.out.println("------------------------");
+							op = leitor.nextInt();
+							System.out.println("------------------------");
+							break;
+						} catch (InputMismatchException e) {
+							System.err.println("------------------------");
+							System.err.println("Entrada inválida!");
+							System.err.println("------------------------");
+							System.out.println();
+							leitor.nextLine();
+						}
+					}
+					
 					leitor.nextLine();
 					System.out.println();
+					
 					switch (op) {
 					case 1:
 						System.out.println("-------------------------");
 						System.out.println("--- PESQUISA POR DATA ---");
+						System.out.println("-------------------------");
+						System.out.println();
 						System.out.println("-------------------------");
 						Date dataDeApresentacao;
 						while (true) {
 							try {
 								System.out.print("Digite a data de apresentação (dd/MM/yyyy): ");
 								dataDeApresentacao = sdf2.parse(leitor.nextLine());
+								System.out.println("-------------------------");
 								break;
 							} catch (ParseException e) {
-								System.out.println();
+								System.err.println("------------------------");
 								System.err.println("Formato de data inválido!");
+								System.err.println("------------------------");
 							}
 						}
 						try {
@@ -317,15 +348,23 @@ public class Programa {
 							for (int i = 0; i < numeroDeBlocos; i++) {
 								System.out.println(apresentacoesDaData.remover() + "\n");
 							}
+							System.out.println("-------------------------");
 						} catch (NaoCadastradoException e) {
-							System.out.println();
+							System.err.println("------------------------");
 							System.err.println(e.getMessage());
+							System.err.println("------------------------");
+						} catch (BancoDeCadastroVazioException e) {
+							System.err.println("------------------------");
+							System.err.println(e.getMessage());
+							System.err.println("------------------------");
 						}
 						break;
 
 					case 2:
 						System.out.println("-------------------------");
 						System.out.println("--- PESQUISA POR CNPJ ---");
+						System.out.println("-------------------------");
+						System.out.println();
 						System.out.println("-------------------------");
 						boolean verificacao = true;
 						int id = 0;
@@ -334,8 +373,11 @@ public class Programa {
 								System.out.print("Digite o CNPJ do bloco: ");
 								id = leitor.nextInt();
 								verificacao = false;
+								System.out.println("-------------------------");
 							} catch (InputMismatchException e) {
+								System.err.println("------------------------");
 								System.err.println("Entrada inválida!");
+								System.err.println("------------------------");
 								leitor.nextLine();
 							}
 						}
@@ -344,8 +386,15 @@ public class Programa {
 							System.out.println();
 							System.out.println("--- DADOS DO BLOCO DE CNPJ " + id + " ---\n");
 							System.out.println(bloco);
+							System.out.println("------------------------");
 						} catch (NaoCadastradoException e) {
+							System.err.println("------------------------");
 							System.err.println(e.getMessage());
+							System.err.println("------------------------");
+						} catch (BancoDeCadastroVazioException e) {
+							System.err.println("------------------------");
+							System.err.println(e.getMessage());
+							System.err.println("------------------------");
 						}
 						break;
 
@@ -353,15 +402,20 @@ public class Programa {
 						System.out.println("---------------------------");
 						System.out.println("--- PESQUISA POR ESTILO ---");
 						System.out.println("---------------------------");
+						System.out.println();
+						System.out.println("---------------------------");
 						Estilo estilo;
 						while (true) {
 							try {
 								System.out.print(
 										"Digite o estilo musical desejado (FREVO, MARACATU, CABOCLINHO, SAMBA): ");
 								estilo = Estilo.valueOf(leitor.nextLine().toUpperCase());
+								System.out.println("---------------------------");
 								break;
 							} catch (IllegalArgumentException e) {
+								System.err.println("------------------------");
 								System.err.println("Estilo inválido!");
+								System.err.println("------------------------");
 							}
 						}
 						try {
@@ -372,8 +426,15 @@ public class Programa {
 							for (int i = 0; i < tamanhoDaFila; i++) {
 								System.out.println(blocosEstilo.remover() + "\n");
 							}
+							System.out.println("------------------------");
 						} catch (NaoCadastradoException e) {
+							System.err.println("------------------------");
 							System.err.println(e.getMessage());
+							System.err.println("------------------------");
+						} catch (BancoDeCadastroVazioException e) {
+							System.err.println("------------------------");
+							System.err.println(e.getMessage());
+							System.err.println("------------------------");
 						}
 						break;
 
@@ -381,32 +442,62 @@ public class Programa {
 						System.out.println("---------------------------");
 						System.out.println("--- PESQUISA POR CIDADE ---");
 						System.out.println("---------------------------");
+						System.out.println();
+						System.out.println("---------------------------");
 						try {
 							System.out.print("Digite o nome da cidade: ");
 							String cidade = leitor.nextLine().toUpperCase();
+							System.out.println("---------------------------");
 							System.out.println();
-							System.out.println("--- BLOCOS DA CIDADE " + cidade.toUpperCase() + " ---\n");
-							System.out.println(c.pesquisar(cidade));
+
+							Fila<BlocoDeCarnaval> blocosPorCidade = c.pesquisar(cidade);
+							int tamanhoDaFila = blocosPorCidade.pegarTamanho();
+							System.out.println("--- TODOS OS BLOCOS DA CIDADE " + cidade + " ---\n");
+							for (int i = 0; i < tamanhoDaFila; i++) {
+								System.out.println(blocosPorCidade.remover() + "\n");
+							}
+							System.out.println("------------------------");
+
 						} catch (NaoCadastradoException e) {
+							System.err.println("------------------------");
 							System.err.println(e.getMessage());
+							System.err.println("------------------------");
+						} catch (BancoDeCadastroVazioException e) {
+							System.err.println("------------------------");
+							System.err.println(e.getMessage());
+							System.err.println("------------------------");
 						}
 						break;
 					case 5:
 						System.out.println();
-						System.out.println("--- TODOS OS BLOCOS CADASTRADOS ---");
-						System.out.println(c.pesquisar());
+						System.out.println("------------------------------------------------");
+						try {
+							Fila<BlocoDeCarnaval> todosBlocos = c.pesquisar();
+							int tamanhoDaFila = todosBlocos.pegarTamanho();
+							System.out.println("--- TODOS OS BLOCOS NA ORDEM DE APRESENTAÇÃO ---\n\n");
+							for (int i = 0; i < tamanhoDaFila; i++) {
+								System.out.println(todosBlocos.remover() + "\n");
+							}
+							System.out.println("------------------------------------------------");
+						} catch (BancoDeCadastroVazioException e) {
+							System.err.println("------------------------");
+							System.err.println(e.getMessage());
+							System.err.println("------------------------");
+						}
 						break;
 					default:
+						System.out.println("---------------------------");
 						System.out.println("Opção inválida!");
+						System.out.println("---------------------------");
 						break;
 					}
 					System.out.println();
 					System.out.print("Deseja realizar mais alguma pesquisa? (s/n) ");
-					teste = leitor.next().charAt(0);
-				} while (teste == 's');
+					teste = leitor.next().toUpperCase().charAt(0);
+				} while (teste == 'S');
 				break;
 			case 5:
-				teste2 = 'n';
+				teste2 = 'N';
 				continue;
 			default:
 				System.out.println();
@@ -415,10 +506,10 @@ public class Programa {
 			}
 			System.out.println();
 			System.out.print("Deseja retornar ao menu principal? (s/n) ");
-			teste2 = leitor.next().charAt(0);
+			teste2 = leitor.next().toUpperCase().charAt(0);
 			leitor.nextLine();
 			System.out.println();
-		} while (teste2 == 's');
+		} while (teste2 == 'S');
 		System.out.println("Programa encerrado!");
 		leitor.close();
 	}

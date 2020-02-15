@@ -51,12 +51,12 @@ public class ControladorBlocoDeCarnaval implements IControlador {
 	}
 
 	@Override
-	public String pesquisar() {
+	public Fila<BlocoDeCarnaval> pesquisar() {
 		return rptBlocoDeCarnaval.pesquisar();
 	}
 
 	@Override
-	public String pesquisar(String cidade) {
+	public Fila<BlocoDeCarnaval> pesquisar(String cidade) {
 		return rptBlocoDeCarnaval.pesquisar(cidade);
 	}
 

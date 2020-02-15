@@ -20,7 +20,7 @@ public interface IRepositorio {
 
 	public boolean verificarExistencia(int id);
 
-	public String pesquisar();
+	public Fila<BlocoDeCarnaval> pesquisar();
 
-	public String pesquisar(String cidade);
+	public Fila<BlocoDeCarnaval> pesquisar(String cidade);
 }

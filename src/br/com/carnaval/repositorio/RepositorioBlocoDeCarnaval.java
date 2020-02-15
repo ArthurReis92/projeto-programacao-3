@@ -96,7 +96,7 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 				throw new NaoCadastradoException("Não há blocos cadastrados para a data informada!");
 			}
 		} else {
-			throw new NaoCadastradoException("Não há blocos cadastrados para o carnaval!");
+			throw new BancoDeCadastroVazioException("Não há blocos cadastrados para o carnaval!");
 		}
 	}
 
@@ -123,7 +123,7 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 				throw new NaoCadastradoException("Não há blocos cadastrados para o estilo informado!");
 			}
 		} else {
-			throw new NaoCadastradoException("Não há blocos cadastrados para o carnaval!");
+			throw new BancoDeCadastroVazioException("Não há blocos cadastrados para o carnaval!");
 		}
 
 	}
@@ -140,26 +140,26 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 	}
 
 	@Override
-	public String pesquisar() {
-
+	public Fila<BlocoDeCarnaval> pesquisar() {
 		if (!blocos.isEmpty()) {
+			Fila<BlocoDeCarnaval> blocosNaFila = new Fila<BlocoDeCarnaval>();
 			List<BlocoDeCarnaval> blocosOrdenados = blocos;
 			Sort.quickSort(0, blocosOrdenados.size() - 1, blocosOrdenados);
 
-			String todosBlocos = "";
 			for (int i = 0; i < blocosOrdenados.size(); i++) {
-				todosBlocos += blocosOrdenados.get(i) + "\n\n";
+				blocosNaFila.inserir(blocosOrdenados.get(i));
 			}
 
-			return todosBlocos;
+			return blocosNaFila;
 		} else {
-			throw new NaoCadastradoException("Não há blocos cadastrados para o carnaval!");
+			throw new BancoDeCadastroVazioException("Não há blocos cadastrados para o carnaval!");
 		}
 	}
 
 	@Override
-	public String pesquisar(String cidade) {
+	public Fila<BlocoDeCarnaval> pesquisar(String cidade) {
 		if (!blocos.isEmpty()) {
+			Fila<BlocoDeCarnaval> blocosNaFila = new Fila<BlocoDeCarnaval>();
 			List<BlocoDeCarnaval> blocosDaCidade = new ArrayList<BlocoDeCarnaval>();
 
 			for (BlocoDeCarnaval blocoDeCarnaval : blocos) {
@@ -170,16 +170,16 @@ public class RepositorioBlocoDeCarnaval implements IRepositorio {
 			if (!blocosDaCidade.isEmpty()) {
 				Sort.quickSort(0, blocosDaCidade.size() - 1, blocosDaCidade);
 
-				String todosBlocos = "";
 				for (int i = 0; i < blocosDaCidade.size(); i++) {
-					todosBlocos += blocosDaCidade.get(i) + "\n\n";
+					blocosNaFila.inserir(blocosDaCidade.get(i));
 				}
-				return todosBlocos;
+
+				return blocosNaFila;
 			} else {
 				throw new NaoCadastradoException("Não há blocos para a cidade informada!");
 			}
 		} else {
-			throw new NaoCadastradoException("Não há blocos cadastrados para o carnaval!");
+			throw new BancoDeCadastroVazioException("Não há blocos cadastrados para o carnaval!");
 		}
 	}
 
